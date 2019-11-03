@@ -8,3 +8,9 @@ export const CATEGORIES = [
   {value: 'busy', label: 'Busy'},
   {value: 'anniversary', label: 'Anniversary'},
 ];
+export const CATEGORIES_COLORS = {
+  holiday: `#eb8f17`,
+  birthday: `#21df10`,
+  busy: `#cf24d4`,
+  anniversary: `#e23111`,
+}

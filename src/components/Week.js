@@ -4,14 +4,17 @@ import Date from './Date';
 
 const Week = props => {
 
-  const { week } = props;
+  const { monthIndex, week, weekIndex, toggleCategoryPopup } = props;
 
   return (
     <tr>   
       {week.map((weekDay, weekDayIndex) => (
         <Date key={weekDayIndex}
+          monthIndex={monthIndex}
+          weekIndex={weekIndex}
           weekDay={weekDay}
           weekDayIndex={weekDayIndex}
+          toggleCategoryPopup={toggleCategoryPopup}
         />
       ))}    
     </tr>

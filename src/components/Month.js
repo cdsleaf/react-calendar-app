@@ -18,7 +18,7 @@ const Table = styled.table`
 
 const Month = props => {
 
-  const { monthName, days } = props;
+  const { monthIndex, monthName, days, toggleCategoryPopup } = props;
 
   return (
     <div>
@@ -28,7 +28,10 @@ const Month = props => {
         <tbody>
           {days.map((week, weekIndex) => (
           <Week key={weekIndex}
+            monthIndex={monthIndex}
             week={week}
+            weekIndex={weekIndex}
+            toggleCategoryPopup={toggleCategoryPopup}
           />
           ))}   
         </tbody>

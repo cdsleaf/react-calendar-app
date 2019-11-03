@@ -7,6 +7,7 @@ import {
  } from '../util/calenderUtil';
  import YearNavigation from './YearNavigation';
  import Month from './Month';
+ import CategoryPopup from './CategoryPopup';
 
 const Layout = styled.div`
   margin: 3rem;
@@ -27,6 +28,15 @@ const Monthes = styled.div`
 const Calendar = props => {
   const [calenders, setCalenders] = useState([]);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [showCategoryPopup, setShowCategoryPopup] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(
+    {
+      category: null,
+      monthIndex: 0,
+      weekIndex: 0,
+      weekDayIndex: 0,
+    }
+  );
 
   const createCalenders = year => {
     return MONTHS.reduce( (acc, month, index) => {
@@ -35,6 +45,32 @@ const Calendar = props => {
         days: createDays(year, index, calculateEndDatesOfMonths(year)[index]) 
       } ];
     }, [])
+  }
+
+  const toggleCategoryPopup = indexs => {
+
+    setShowCategoryPopup(!showCategoryPopup);
+
+    if(indexs === null) return;
+
+    const {monthIndex, weekIndex, weekDayIndex} = indexs;
+
+    setSelectedDay({
+      ...selectedDay,
+      ...indexs,
+      category: calenders[monthIndex].days[weekIndex][weekDayIndex].category,
+    });
+  }
+
+  const handleChangeCategory = event => {
+    const newCategory = event.target.value;
+    const { monthIndex, weekIndex, weekDayIndex } = selectedDay;
+
+    let newCalenders = JSON.parse(JSON.stringify(calenders));
+    newCalenders[monthIndex].days[weekIndex][weekDayIndex].category = newCategory;
+
+    setCalenders(newCalenders);
+    setShowCategoryPopup(!showCategoryPopup);
   }
 
   useEffect(() => {
@@ -53,9 +89,18 @@ const Calendar = props => {
             monthName={month.monthName} 
             monthIndex={monthIndex} 
             days={month.days}
+            toggleCategoryPopup={toggleCategoryPopup}
           />
         ))}
       </Monthes>
+      {showCategoryPopup ? 
+        <CategoryPopup
+          selectedDay={selectedDay}
+          handleChangeCategory={handleChangeCategory}
+          toggleCategoryPopup={toggleCategoryPopup}
+        />
+        : null
+      }
     </Layout>
   )
 }
