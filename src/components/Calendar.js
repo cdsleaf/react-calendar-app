@@ -12,6 +12,7 @@ import {
 const Layout = styled.div`
   margin: 3rem;
   max-width: 46rem;
+  float: left;
 `;
 
 const Year = styled.div`

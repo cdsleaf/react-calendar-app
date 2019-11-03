@@ -26,7 +26,7 @@ export const createDays = (year, month, endDate) => {
 
     weekRow = [ ...weekRow, {
       date: isDate(i, date) ? date : '', 
-      category: null, 
+      category: '', 
       weekends: (weekRow.length === 0 || weekRow.length === 6) ? true : false,
       today: today.getFullYear() === year && 
         today.getMonth() === month && 
