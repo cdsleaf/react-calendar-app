@@ -6,9 +6,11 @@ import {
   createDays,
  } from '../util/calenderUtil';
  import YearNavigation from './YearNavigation';
+ import Month from './Month';
 
 const Layout = styled.div`
-  margin: 1rem;
+  margin: 3rem;
+  max-width: 46rem;
 `;
 
 const Year = styled.div`
@@ -46,9 +48,14 @@ const Calendar = props => {
       </Year>
       <Monthes>
         {calenders.map((month, monthIndex) => (
-          <div key={monthIndex}>{month.monthName} {monthIndex}</div>
+          <Month 
+            key={month.monthName}
+            monthName={month.monthName} 
+            monthIndex={monthIndex} 
+            days={month.days}
+          />
         ))}
-      </Monthes>{console.log(calenders)}
+      </Monthes>
     </Layout>
   )
 }

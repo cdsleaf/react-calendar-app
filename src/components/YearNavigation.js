@@ -7,6 +7,10 @@ const YearSelector = styled.button`
   border: none;
   background: none;
   cursor: pointer;
+
+  :hover {
+    color: red;
+  }
 `;
 
 const YearNavigation = props => {
