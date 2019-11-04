@@ -14,3 +14,4 @@ export const CATEGORIES_COLORS = {
   busy: `#cf24d4`,
   anniversary: `#e23111`,
 }
+export const SESSION_STORAGE_CALENDARS = 'CALENDARS';

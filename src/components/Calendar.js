@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import styled from 'styled-components';
-import { MONTHS } from '../constants';
+import { MONTHS, SESSION_STORAGE_CALENDARS } from '../constants';
 import { 
   calculateEndDatesOfMonths, 
   createDays,
@@ -40,6 +40,9 @@ const Calendar = props => {
   );
 
   const createCalenders = year => {
+    const savedCalender = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CALENDARS));
+    if(savedCalender && savedCalender.hasOwnProperty(year)) return savedCalender[year];
+
     return MONTHS.reduce( (acc, month, index) => {
       return [ ...acc, {
         monthName: month,
@@ -63,15 +66,32 @@ const Calendar = props => {
     });
   }
 
-  const handleChangeCategory = event => {
-    const newCategory = event.target.value;
+  const handleChangeCategory = ({target: {value}}) => {
     const { monthIndex, weekIndex, weekDayIndex } = selectedDay;
 
     let newCalenders = JSON.parse(JSON.stringify(calenders));
-    newCalenders[monthIndex].days[weekIndex][weekDayIndex].category = newCategory;
+    newCalenders[monthIndex].days[weekIndex][weekDayIndex].category = value;
 
     setCalenders(newCalenders);
     setShowCategoryPopup(!showCategoryPopup);
+  }
+
+  const handleChangeYear = ({target: {id}}) => {
+    
+    const savedCalender = sessionStorage.getItem(SESSION_STORAGE_CALENDARS);
+
+    const newCalendars = savedCalender ? {
+      ...JSON.parse(savedCalender),
+      [year]: calenders,
+    } : { [year]: calenders, };
+
+    sessionStorage.setItem(SESSION_STORAGE_CALENDARS, JSON.stringify(newCalendars));
+
+    if(id === 'lastYear'){
+      setYear(year-1)
+    }else if(id === 'nextYear'){
+      setYear(year+1)
+    }
   }
 
   useEffect(() => {
@@ -81,7 +101,7 @@ const Calendar = props => {
   return (
     <Layout>
       <Year>
-        <YearNavigation year={year} setYear={setYear} />
+        <YearNavigation year={year} handleChangeYear={handleChangeYear} />
       </Year>
       <Monthes>
         {calenders.map((month, monthIndex) => (

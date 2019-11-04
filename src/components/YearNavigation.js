@@ -15,20 +15,20 @@ const YearSelector = styled.button`
 
 const YearNavigation = props => {
   
-  const { year, setYear } = props;
+  const { year, handleChangeYear } = props;
 
   return (
     <div>
-      <YearSelector id="lastYear" onClick={() => setYear(year-1)}>◀</YearSelector>
+      <YearSelector id="lastYear" onClick={handleChangeYear}>◀</YearSelector>
       <span>{year}</span>
-      <YearSelector id="nextYear" onClick={() => setYear(year+1)}>▶</YearSelector>
+      <YearSelector id="nextYear" onClick={handleChangeYear}>▶</YearSelector>
     </div>
   )
 }
 
 YearNavigation.propTypes = {
   year: PropType.number.isRequired,
-  setYear: PropType.func.isRequired,
+  handleChangeYear: PropType.func.isRequired,
 };
 
 export default YearNavigation
