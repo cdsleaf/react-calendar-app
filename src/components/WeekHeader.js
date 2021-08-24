@@ -11,13 +11,13 @@ const Tr = styled.tr`
 const WeekHeader = () => (
   <thead>
     <Tr>
-      {WEEKS.map( week => (
+      {WEEKS.map((week) => (
         <th key={week}>
           {week}
         </th>
       ))}
     </Tr>
-  </thead> 
-)
+  </thead>
+);
 
 export default WeekHeader;

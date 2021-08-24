@@ -4,10 +4,10 @@ import Legend from './Legend';
 
 function App() {
   return (
-    <React.Fragment>
+    <>
       <Calendar />
       <Legend />
-    </React.Fragment>
+    </>
   );
 }
 

@@ -30,22 +30,20 @@ const Category = styled.div`
   }
 `;
 
-const Legend = () => {
-  return (
-    <Layout>
-      <h3>Legend</h3>
-      <ul>
-        {CATEGORIES.map(e => (
-          <li key={e.label}>
-            <Category color={CATEGORIES_COLORS[e.value]}>
-              <span>{e.label}</span>
-              <div />
-            </Category>
-          </li>
-        ))}
-      </ul>
-    </Layout>
-  )
-}
+const Legend = () => (
+  <Layout>
+    <h3>Legend</h3>
+    <ul>
+      {CATEGORIES.map((e) => (
+        <li key={e.label}>
+          <Category color={CATEGORIES_COLORS[e.value]}>
+            <span>{e.label}</span>
+            <div />
+          </Category>
+        </li>
+      ))}
+    </ul>
+  </Layout>
+);
 
 export default Legend;

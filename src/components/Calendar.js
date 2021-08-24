@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MONTHS, SESSION_STORAGE_CALENDARS } from '../constants';
-import { 
-  calculateEndDatesOfMonths, 
+import {
+  calculateEndDatesOfMonths,
   createDays,
- } from '../util/calenderUtil';
- import YearNavigation from './YearNavigation';
- import Month from './Month';
- import CategoryPopup from './CategoryPopup';
+} from '../util/calenderUtil';
+import YearNavigation from './YearNavigation';
+import Month from './Month';
+import CategoryPopup from './CategoryPopup';
 
 const Layout = styled.div`
   margin: 3rem;
@@ -26,7 +26,7 @@ const Monthes = styled.div`
   grid-gap: 2rem;
 `;
 
-const Calendar = props => {
+const Calendar = () => {
   const [calenders, setCalenders] = useState([]);
   const [year, setYear] = useState(new Date().getFullYear());
   const [showCategoryPopup, setShowCategoryPopup] = useState(false);
@@ -36,63 +36,66 @@ const Calendar = props => {
       monthIndex: 0,
       weekIndex: 0,
       weekDayIndex: 0,
-    }
+    },
   );
 
-  const createCalenders = year => {
+  const createCalenders = (newYear) => {
     const savedCalender = JSON.parse(sessionStorage.getItem(SESSION_STORAGE_CALENDARS));
-    if(savedCalender && savedCalender.hasOwnProperty(year)) return savedCalender[year];
+    if (savedCalender && savedCalender.newYear) {
+      return savedCalender[newYear];
+    }
 
-    return MONTHS.reduce( (acc, month, index) => {
-      return [ ...acc, {
+    return MONTHS.reduce((acc, month, index) => ([
+      ...acc,
+      {
         monthName: month,
-        days: createDays(year, index, calculateEndDatesOfMonths(year)[index]) 
-      } ];
-    }, [])
-  }
+        days: createDays(newYear, index, calculateEndDatesOfMonths(newYear)[index]),
+      },
+    ]), []);
+  };
 
-  const toggleCategoryPopup = indexs => {
-
+  const toggleCategoryPopup = (indexs) => {
     setShowCategoryPopup(!showCategoryPopup);
 
-    if(indexs === null) return;
+    if (indexs === null) return;
 
-    const {monthIndex, weekIndex, weekDayIndex} = indexs;
+    const { monthIndex, weekIndex, weekDayIndex } = indexs;
 
     setSelectedDay({
       ...selectedDay,
       ...indexs,
       category: calenders[monthIndex].days[weekIndex][weekDayIndex].category,
     });
-  }
+  };
 
-  const handleChangeCategory = ({target: {value}}) => {
+  const handleChangeCategory = ({ target: { value } }) => {
     const { monthIndex, weekIndex, weekDayIndex } = selectedDay;
 
-    let newCalenders = JSON.parse(JSON.stringify(calenders));
+    const newCalenders = JSON.parse(JSON.stringify(calenders));
     newCalenders[monthIndex].days[weekIndex][weekDayIndex].category = value;
 
     setCalenders(newCalenders);
     setShowCategoryPopup(!showCategoryPopup);
-  }
+  };
 
-  const handleChangeYear = ({target: {id}}) => {
-    
+  const handleChangeYear = ({ target: { id } }) => {
     const savedCalender = sessionStorage.getItem(SESSION_STORAGE_CALENDARS);
 
-    const newCalendars = savedCalender ? {
-      ...JSON.parse(savedCalender),
-      [year]: calenders,
-    } : { [year]: calenders, };
+    const newCalendars = savedCalender
+      ? {
+        ...JSON.parse(savedCalender),
+        [year]: calenders,
+      }
+      : { [year]: calenders };
 
     sessionStorage.setItem(SESSION_STORAGE_CALENDARS, JSON.stringify(newCalendars));
 
-    if(id === 'lastYear'){
-      setYear(year-1)
-    }else if(id === 'nextYear'){
-      setYear(year+1)
+    if (id === 'lastYear') {
+      setYear(year - 1);
+    } else if (id === 'nextYear') {
+      setYear(year + 1);
     }
-  }
+  };
 
   useEffect(() => {
     setCalenders(createCalenders(year));
@@ -105,25 +108,25 @@ const Calendar = props => {
       </Year>
       <Monthes>
         {calenders.map((month, monthIndex) => (
-          <Month 
+          <Month
             key={month.monthName}
-            monthName={month.monthName} 
-            monthIndex={monthIndex} 
+            monthName={month.monthName}
+            monthIndex={monthIndex}
             days={month.days}
             toggleCategoryPopup={toggleCategoryPopup}
           />
         ))}
       </Monthes>
-      {showCategoryPopup ? 
-        <CategoryPopup
-          selectedDay={selectedDay}
-          handleChangeCategory={handleChangeCategory}
-          toggleCategoryPopup={toggleCategoryPopup}
-        />
-        : null
-      }
+      {showCategoryPopup
+        ? (
+          <CategoryPopup
+            selectedDay={selectedDay}
+            handleChangeCategory={handleChangeCategory}
+            toggleCategoryPopup={toggleCategoryPopup}
+          />
+        ) : null }
     </Layout>
-  )
-}
+  );
+};
 
 export default Calendar;

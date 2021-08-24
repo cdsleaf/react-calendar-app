@@ -2,27 +2,30 @@ import React from 'react';
 import PropType from 'prop-types';
 import Date from './Date';
 
-const Week = props => {
-
-  const { monthIndex, week, weekIndex, toggleCategoryPopup } = props;
-
-  return (
-    <tr>   
-      {week.map((weekDay, weekDayIndex) => (
-        <Date key={weekDayIndex}
-          monthIndex={monthIndex}
-          weekIndex={weekIndex}
-          weekDay={weekDay}
-          weekDayIndex={weekDayIndex}
-          toggleCategoryPopup={toggleCategoryPopup}
-        />
-      ))}    
-    </tr>
-  )
-}
+const Week = ({
+  monthIndex,
+  week,
+  weekIndex,
+  toggleCategoryPopup,
+}) => (
+  <tr>
+    {week.map((weekDay, weekDayIndex) => (
+      <Date
+        monthIndex={monthIndex}
+        weekIndex={weekIndex}
+        weekDay={weekDay}
+        weekDayIndex={weekDayIndex}
+        toggleCategoryPopup={toggleCategoryPopup}
+      />
+    ))}
+  </tr>
+);
 
 Week.propTypes = {
-  week: PropType.array.isRequired,
+  monthIndex: PropType.number.isRequired,
+  week: PropType.arrayOf.isRequired,
+  weekIndex: PropType.number.isRequired,
+  toggleCategoryPopup: PropType.func.isRequired,
 };
 
 export default Week;

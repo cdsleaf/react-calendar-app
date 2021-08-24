@@ -16,33 +16,35 @@ const Table = styled.table`
   text-align: center;
 `;
 
-const Month = props => {
-
-  const { monthIndex, monthName, days, toggleCategoryPopup } = props;
-
-  return (
-    <div>
-      <TitleMonth>{monthName}</TitleMonth>
-      <Table>
-        <WeekHeader />
-        <tbody>
-          {days.map((week, weekIndex) => (
-          <Week key={weekIndex}
+const Month = ({
+  monthIndex,
+  monthName,
+  days,
+  toggleCategoryPopup,
+}) => (
+  <div>
+    <TitleMonth>{monthName}</TitleMonth>
+    <Table>
+      <WeekHeader />
+      <tbody>
+        {days.map((week, weekIndex) => (
+          <Week
             monthIndex={monthIndex}
             week={week}
             weekIndex={weekIndex}
             toggleCategoryPopup={toggleCategoryPopup}
           />
-          ))}   
-        </tbody>
-      </Table>
-    </div>
-  )
-}
+        ))}
+      </tbody>
+    </Table>
+  </div>
+);
 
 Month.propTypes = {
+  monthIndex: PropType.number.isRequired,
   monthName: PropType.string.isRequired,
-  days: PropType.array.isRequired,
+  days: PropType.arrayOf.isRequired,
+  toggleCategoryPopup: PropType.func.isRequired,
 };
 
 export default Month;

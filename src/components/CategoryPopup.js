@@ -23,33 +23,33 @@ const PopupInner = styled.div`
   background: white;
 `;
 
-const CategoryPopup = props => {
-
-  const { selectedDay, handleChangeCategory, toggleCategoryPopup } = props;
+const CategoryPopup = ({ selectedDay, handleChangeCategory, toggleCategoryPopup }) => {
   const category = selectedDay.category || '';
   const categoryOptions = [
-    {value: 'select', label: 'select to...', disabled: 'disabled'},
+    { value: 'select', label: 'select to...', disabled: 'disabled' },
     ...CATEGORIES,
-    {value: '', label: 'None'},
-  ]
+    { value: '', label: 'None' },
+  ];
 
   return (
     <Popup onClick={() => toggleCategoryPopup(null)}>
       <PopupInner>
         <select value={category} onChange={handleChangeCategory} size={categoryOptions.length}>
-          {categoryOptions.map(e => (
-            <option key={e.value} value={e.value} disabled={e.disabled} >{e.label}</option>
+          {categoryOptions.map((e) => (
+            <option key={e.value} value={e.value} disabled={e.disabled}>{e.label}</option>
           ))}
         </select>
       </PopupInner>
     </Popup>
-  )
-}
+  );
+};
 
 CategoryPopup.propTypes = {
-  selectedDay: PropType.object.isRequired,
+  selectedDay: PropType.shape({
+    category: PropType.string,
+  }).isRequired,
   handleChangeCategory: PropType.func.isRequired,
   toggleCategoryPopup: PropType.func.isRequired,
 };
 
-export default CategoryPopup
+export default CategoryPopup;
